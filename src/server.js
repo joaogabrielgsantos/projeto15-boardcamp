@@ -281,7 +281,37 @@ app.put('/customers/:customerId', async (req, res) => {
 
 
 
+app.get('/rentals', async (req, res) => {
+    try {
+        const { customerId, gameId } = req.query;
 
+        if (customerId) {
+            const customerFiltered = await connection.query(
+                `SELECT * FROM rentals WHERE customerId LIKE $1;`, [`${customerId}%`]
+            );
+
+        } if (gameId) {
+            const gameFiltered = await connection.query(
+                `SELECT * FROM rentals WHERE gameId LIKE $1;`, [`${gameId}%`]
+            );
+
+        } else {
+            const rentalsList = await connection.query(
+                `SELECT * FROM rentals;`
+            );
+            if (rentalsList.rowCount === 0) {
+                return res.send("Sem dados")
+            }
+
+            res.send(rentalsList.rows);
+        }
+
+
+    } catch (err) {
+        console.error(err);
+        res.sendStatus(500);
+    }
+});
 
 
 

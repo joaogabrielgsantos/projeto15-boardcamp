@@ -101,7 +101,7 @@ app.get('/games', async (req, res) => {
 
         if (name) {
             const gamesFiltered = await connection.query(
-                `SELECT * FROM games WHERE games.name LIKE $1;`, [`${name}%`]
+                `SELECT * FROM games WHERE games.name ILIKE $1;`, [`${name}%`]
             );
             return res.send(gamesFiltered.rows);
         } else {
@@ -174,7 +174,7 @@ app.get('/customers', async (req, res) => {
 
         if (cpf) {
             const cpfFiltered = await connection.query(
-                `SELECT * FROM customers WHERE customers.cpf LIKE $1;`, [`${cpf}%`]
+                `SELECT * FROM customers WHERE customers.cpf ILIKE $1;`, [`${cpf}%`]
             );
 
         } else {
@@ -287,12 +287,12 @@ app.get('/rentals', async (req, res) => {
 
         if (customerId) {
             const customerFiltered = await connection.query(
-                `SELECT * FROM rentals WHERE customerId LIKE $1;`, [`${customerId}%`]
+                `SELECT * FROM rentals WHERE customerId ILIKE $1;`, [`${customerId}%`]
             );
 
         } if (gameId) {
             const gameFiltered = await connection.query(
-                `SELECT * FROM rentals WHERE gameId LIKE $1;`, [`${gameId}%`]
+                `SELECT * FROM rentals WHERE gameId ILIKE $1;`, [`${gameId}%`]
             );
 
         } else {
